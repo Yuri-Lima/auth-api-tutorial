@@ -1,4 +1,4 @@
-import jwt from "jsonwebtoken";
+import jwt, { JwtPayload, Jwt } from "jsonwebtoken";
 import config from "config";
 
 export function signJwt(
@@ -17,10 +17,10 @@ export function signJwt(
   });
 }
 
-export function verifyJwt<T>(
+export function verifyJwt<T extends JwtPayload | Jwt | null>(
   token: string,
   keyName: "accessTokenPublicKey" | "refreshTokenPublicKey"
-): T | null {
+): T | null{
   const publicKey = Buffer.from(config.get<string>(keyName), "base64").toString(
     "ascii"
   );
